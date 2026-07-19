@@ -43,7 +43,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: AppGradients.bgGradient,
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Form(
             key: _formKey,
