@@ -54,29 +54,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: 32),
-          
-                  // Smaller logo + title space for the login page.
-                  Center(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 72,
-                          height: 72,
-                          decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.asset('assets/images/upc-logo.png'),
-                        ),
-                        const SizedBox(height: 16),
-                        const Text('UPC Connect', style: AppTextStyles.heading2),
-                      ],
-                    ),
-                  ),
-          
-                  const SizedBox(height: 40),
-          
                   const Text('Email', style: AppTextStyles.body),
                   const SizedBox(height: 8),
                   TextFormField(
@@ -94,7 +71,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
           
                   const SizedBox(height: 20),
-          
                   const Text('Password', style: AppTextStyles.body),
                   const SizedBox(height: 8),
                   TextFormField(

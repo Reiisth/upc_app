@@ -47,8 +47,8 @@ class AppGradients {
 class AppShadows {
   static const List<BoxShadow> card = [
     BoxShadow(
-      color: Color(0x1A000000),
-      blurRadius: 12,
+      color: Color.fromRGBO(0, 0, 0, 0.25),
+      blurRadius: 8,
       offset: Offset(0, 4),
     ),
   ];
@@ -113,7 +113,7 @@ class AppTextStyles {
   );
 
   static const TextStyle button = TextStyle(
-    fontFamily: headingFont,
+    fontFamily: bodyFont,
     fontSize: 16,
     fontWeight: FontWeight.w600,
     color: AppColors.white,
