@@ -1,0 +1,41 @@
+name: upc_connect
+description: UPC Connect mobile app for church attendance and analytics.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Prompt
+      fonts:
+        - asset: assets/fonts/Prompt-Regular.ttf
+        - asset: assets/fonts/Prompt-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Prompt-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Prompt-Bold.ttf
+          weight: 700
+    - family: RadioCanada
+      fonts:
+        - asset: assets/fonts/RadioCanada-Regular.ttf
+        - asset: assets/fonts/RadioCanada-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/RadioCanada-SemiBold.ttf
+          weight: 600
