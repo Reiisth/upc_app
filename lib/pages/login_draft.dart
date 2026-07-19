@@ -123,11 +123,11 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Email',
                               fillColor: AppColors.white,
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                                borderSide: BorderSide(color: AppColors.primary, width: 1.0),
                                 borderRadius: BorderRadius.all(Radius.circular(14.0)),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                                borderSide: BorderSide(color: AppColors.darkBlue, width: 2.0),
                                 borderRadius: BorderRadius.all(Radius.circular(14.0)),
                               ),
                             ),
@@ -158,11 +158,11 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                               ),
                               enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                                borderSide: BorderSide(color: AppColors.primary, width: 1.0),
                                 borderRadius: BorderRadius.all(Radius.circular(14.0)),
                               ),
                               focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                                borderSide: BorderSide(color: AppColors.darkBlue, width: 2.0),
                                 borderRadius: BorderRadius.all(Radius.circular(14.0)),
                               ),
                             ),

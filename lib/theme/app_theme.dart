@@ -9,6 +9,7 @@ class AppColors {
   static const Color textDark = Color(0xFF1E1E1E);
   static const Color textMuted = Color(0xFF7A7A7A);
   static const Color error = Color(0xFFE85D5D);
+  static const Color darkBlue = Color(0xFF203264);
 }
 
 
