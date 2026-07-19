@@ -38,46 +38,50 @@ class _SplashPageState extends State<SplashPage> {
         width: double.infinity,
         height: double.infinity,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 100),
-            Stack(
-              children: [
-                Positioned(
-                  top: 6,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                        Colors.black.withValues(alpha: 0.2),
-                        BlendMode.srcIn,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      Positioned(
+                        top: 6,
+                        child: ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              Colors.black.withValues(alpha: 0.2),
+                              BlendMode.srcIn,
+                            ),
+                            child: Image.asset('assets/images/upc-logo.png', width: 360, height: 360),
+                          ),
+                        ),
                       ),
-                      child: Image.asset('assets/images/upc-logo.png', width: 360, height: 360),
+                      Image.asset('assets/images/upc-logo.png', width: 360, height: 360),
+                    ],
+                  ),
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return AppGradients.logotypeGradient.createShader(bounds);
+                    },
+                    blendMode: BlendMode.srcIn,
+                    child: const Text(
+                      'UPC CONNECT',
+                      style: AppTextStyles.herotitle,
                     ),
                   ),
-                ),
-                Image.asset('assets/images/upc-logo.png', width: 360, height: 360),
-              ],
-            ),
-            // const SizedBox(height: 8),
-            ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return AppGradients.logotypeGradient.createShader(bounds);
-              },
-              blendMode: BlendMode.srcIn,
-              child: const Text(
-                'UPC CONNECT',
-                style: AppTextStyles.herotitle,
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Church Management Made Simple',
+                    style: AppTextStyles.bodyMuted,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 4),
-            const Text(
-              'Church Management Made Simple',
-              style: AppTextStyles.bodyMuted,
-            ),
-            const SizedBox(height: 120),
             const Text('© 2024 UPC Batangas. All rights reserved.', style: AppTextStyles.footer),
+            const SizedBox(height: 16),
           ],
         ),
       ),
