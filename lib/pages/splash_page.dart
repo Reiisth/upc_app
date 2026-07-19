@@ -14,8 +14,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    //remove thissss!
-    //_goToLogin();
+    _goToLogin();
   }
 
   Future<void> _goToLogin() async {
