@@ -11,24 +11,20 @@ class AppColors {
   static const Color error = Color(0xFFE85D5D);
 }
 
-/// Named gradient presets. Add new ones here rather than writing
-/// LinearGradient(...) inline wherever you need one.
+
 class AppGradients {
-  // Main brand gradient — buttons, headers, splash background accents.
   static const LinearGradient primary = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [Color(0xFF5D94E8), Color(0xFF3E6FC4)],
   );
 
-  // Light wash version — card backgrounds, subtle section highlights.
   static const LinearGradient subtleBg = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [Color(0xFFFFFFFF), Color(0xFFE3EDFF), Color(0xFFFFFFFF)],
   );
 
-  // Optional darker variant — headers/hero sections that need more contrast.
   static const LinearGradient deep = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -46,6 +42,24 @@ class AppGradients {
     end: Alignment.centerRight,
     colors: [Color(0xFF5D94E8), Color(0xFF203264)],
   );
+}
+
+class AppShadows {
+  static const List<BoxShadow> card = [
+    BoxShadow(
+      color: Color(0x1A000000),
+      blurRadius: 12,
+      offset: Offset(0, 4),
+    ),
+  ];
+
+  static const List<BoxShadow> cardElevated = [
+    BoxShadow(
+      color: Color(0x26000000),
+      blurRadius: 20,
+      offset: Offset(0, 8),
+    ),
+  ];
 }
 
 /// Standard icon sizes. Pick one of these instead of a raw number so
