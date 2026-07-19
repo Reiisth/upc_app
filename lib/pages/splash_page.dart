@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'login_page.dart';
+import 'dart:ui';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,6 +14,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    //remove thissss!
     //_goToLogin();
   }
 
@@ -39,16 +41,26 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset('assets/images/upc-logo.png'),
+            const SizedBox(height: 100),
+            Stack(
+              children: [
+                Positioned(
+                  top: 6,
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withValues(alpha: 0.2),
+                        BlendMode.srcIn,
+                      ),
+                      child: Image.asset('assets/images/upc-logo.png', width: 360, height: 360),
+                    ),
+                  ),
+                ),
+                Image.asset('assets/images/upc-logo.png', width: 360, height: 360),
+              ],
             ),
-            const SizedBox(height: 24),
+            // const SizedBox(height: 8),
             ShaderMask(
               shaderCallback: (Rect bounds) {
                 return AppGradients.logotypeGradient.createShader(bounds);
@@ -64,6 +76,8 @@ class _SplashPageState extends State<SplashPage> {
               'Church Management Made Simple',
               style: AppTextStyles.bodyMuted,
             ),
+            const SizedBox(height: 120),
+            const Text('© 2024 UPC Batangas. All rights reserved.', style: AppTextStyles.footer),
           ],
         ),
       ),

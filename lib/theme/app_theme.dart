@@ -132,6 +132,13 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.primary,
   );
+
+  static const TextStyle footer = TextStyle(
+    fontFamily: bodyFont,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.black54,
+  );
 }
 
 class AppTheme {
