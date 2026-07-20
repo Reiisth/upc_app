@@ -11,6 +11,8 @@ class MemberProfile {
   final DateTime? birthdate;
   final Gender? gender;
   final DateTime? memberSince;
+  final String civilStatus;
+  final String address;
   final String photoUrl;
 
   MemberProfile({
@@ -21,15 +23,15 @@ class MemberProfile {
     this.birthdate,
     this.gender,
     this.memberSince,
+    this.civilStatus = '',
+    this.address = '',
     this.photoUrl = '',
   });
 
-  /// Full display name, e.g. "Juan Dela Cruz" (middle name omitted from display).
   String get fullName => [firstName, lastName]
       .where((part) => part.trim().isNotEmpty)
       .join(' ');
 
-  /// Age in whole years, based on birthdate. Null if birthdate is unknown.
   int? get age {
     if (birthdate == null) return null;
     final now = DateTime.now();
@@ -41,14 +43,11 @@ class MemberProfile {
     return years;
   }
 
-  /// Ministry derived from age + gender. Null if age or gender is unknown.
   String? get ministry {
     final a = age;
     if (a == null) return null;
-
     if (a <= 12) return "Sunday School";
     if (a <= 17) return "Youth";
-
     if (gender == null) return null;
     return gender == Gender.male ? "Men's Ministry" : "Women's Ministry";
   }
@@ -62,6 +61,8 @@ class MemberProfile {
       birthdate: (data['birthdate'] as Timestamp?)?.toDate(),
       gender: _parseGender(data['gender'] as String?),
       memberSince: (data['memberSince'] as Timestamp?)?.toDate(),
+      civilStatus: data['civilStatus'] as String? ?? '',
+      address: data['address'] as String? ?? '',
       photoUrl: data['photoUrl'] as String? ?? '',
     );
   }

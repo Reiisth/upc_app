@@ -85,6 +85,20 @@ class AppTextStyles {
     color: AppColors.textDark,
   );
 
+  static const TextStyle herogreeting = TextStyle(
+    fontFamily: bodyFont,
+    fontSize: 28,
+    fontWeight: FontWeight.w800,
+    color: AppColors.textDark,
+  );
+
+  static const TextStyle greetingsub = TextStyle(
+    fontFamily: headingFont,
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.darkBlue,
+  );
+
   static const TextStyle heading1 = TextStyle(
     fontFamily: headingFont,
     fontSize: 28,
@@ -109,6 +123,13 @@ class AppTextStyles {
     fontFamily: bodyFont,
     fontSize: 14,
     fontWeight: FontWeight.w400,
+    color: AppColors.textDark,
+  );
+
+  static const TextStyle bodyh1 = TextStyle(
+    fontFamily: bodyFont,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
     color: AppColors.textDark,
   );
 
