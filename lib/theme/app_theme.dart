@@ -99,6 +99,12 @@ class AppTextStyles {
     color: AppColors.textDark,
   );
 
+  static const TextStyle barText = TextStyle(
+    fontFamily: headingFont,
+    fontSize: 22,
+    fontWeight: FontWeight.w700
+  );
+
   static const TextStyle body = TextStyle(
     fontFamily: bodyFont,
     fontSize: 14,

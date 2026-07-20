@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
           break;
       }
 
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => destination),
       );
     } catch (e) {
