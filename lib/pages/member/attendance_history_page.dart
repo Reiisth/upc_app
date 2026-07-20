@@ -59,6 +59,10 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
             const Text('Attendance History', style: AppTextStyles.bodyMuted),
           ],
         ),
+        actions: [
+          Image.asset('assets/images/upc-logo.png', height: 40),
+          const SizedBox(width: 16),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.bgGradient),

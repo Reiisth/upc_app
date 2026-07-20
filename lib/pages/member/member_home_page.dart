@@ -3,13 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import '../../models/member_profile.dart';
+import '../../services/member_status_service.dart';
 import '../../theme/app_theme.dart';
 import 'widgets/member_qr_dialog.dart';
 import 'attendance_history_page.dart';
 
-class MemberHomePage extends StatelessWidget {
+class MemberHomePage extends StatefulWidget {
   final MemberProfile profile;
   const MemberHomePage({super.key, required this.profile});
+
+  @override
+  State<MemberHomePage> createState() => _MemberHomePageState();
+}
+
+class _MemberHomePageState extends State<MemberHomePage> {
+  final _memberStatusService = MemberStatusService();
+  late Future<MemberStatusInfo> _statusFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _statusFuture = _memberStatusService.computeStatus(widget.profile.id);
+  }
 
   Future<void> _handleLogout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
@@ -20,6 +35,7 @@ class MemberHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = widget.profile;
     final birthdateText = profile.birthdate != null
         ? DateFormat('MMMM dd, yyyy').format(profile.birthdate!)
         : '—';
@@ -56,8 +72,7 @@ class MemberHomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('WELCOME BACK!',
-                    style: AppTextStyles.greetingsub),
+                const Text('WELCOME BACK!', style: AppTextStyles.greetingsub),
                 const SizedBox(height: 4),
                 Text('Blessed day, ${profile.firstName}!',
                     style: AppTextStyles.herogreeting),
@@ -72,83 +87,108 @@ class MemberHomePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: AppShadows.card,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Center(
-                        child: Text('UPC MEMBER PROFILE',
-                            style: AppTextStyles.heading2),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
+                  child: FutureBuilder<MemberStatusInfo>(
+                    future: _statusFuture,
+                    builder: (context, snapshot) {
+                      final isLoading = snapshot.connectionState == ConnectionState.waiting;
+                      final statusInfo = snapshot.data;
+                      final isActive = statusInfo?.status != MemberStatus.inactive;
+
+                      return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            radius: 32,
-                            backgroundColor:
-                                AppColors.primary.withValues(alpha: 0.15),
-                            backgroundImage: profile.photoUrl.isNotEmpty
-                                ? NetworkImage(profile.photoUrl)
-                                : null,
-                            child: profile.photoUrl.isEmpty
-                                ? Text(
-                                    profile.fullName.isNotEmpty
-                                        ? profile.fullName[0]
-                                        : '?',
-                                    style: AppTextStyles.heading1,
-                                  )
-                                : null,
+                          const Center(
+                            child: Text('UPC MEMBER PROFILE', style: AppTextStyles.heading2),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(profile.fullName,
-                                    style: AppTextStyles.bodyh1),
-                                const SizedBox(height: 4),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.circle,
-                                          size: 8, color: Colors.green),
-                                      SizedBox(width: 6),
-                                      Text('Active Member',
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600)),
-                                    ],
-                                  ),
+                          const SizedBox(height: 16),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                radius: 32,
+                                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
+                                backgroundImage: profile.photoUrl.isNotEmpty
+                                    ? NetworkImage(profile.photoUrl)
+                                    : null,
+                                child: profile.photoUrl.isEmpty
+                                    ? Text(
+                                        profile.fullName.isNotEmpty ? profile.fullName[0] : '?',
+                                        style: AppTextStyles.heading1,
+                                      )
+                                    : null,
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(profile.fullName, style: AppTextStyles.bodyh1),
+                                    const SizedBox(height: 4),
+                                    if (isLoading)
+                                      const SizedBox(
+                                        height: 18,
+                                        width: 18,
+                                        child: CircularProgressIndicator(strokeWidth: 2),
+                                      )
+                                    else
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: (isActive ? Colors.green : Colors.grey)
+                                              .withValues(alpha: 0.1),
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(Icons.circle,
+                                                size: 8,
+                                                color: isActive ? Colors.green : Colors.grey),
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              isActive ? 'Active Member' : 'Inactive Member',
+                                              style: TextStyle(
+                                                color: isActive ? Colors.green : Colors.grey[700],
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    const SizedBox(height: 4),
+                                    Text('Member since $memberSinceText',
+                                        style: AppTextStyles.bodyMuted),
+                                  ],
                                 ),
-                                const SizedBox(height: 4),
-                                Text('Member since $memberSinceText',
-                                    style: AppTextStyles.bodyMuted),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          _InfoRow(label: 'Birthday', value: birthdateText),
+                          if (profile.age != null)
+                            _InfoRow(label: 'Age', value: '${profile.age}'),
+                          if (profile.civilStatus.isNotEmpty)
+                            _InfoRow(label: 'Civil Status', value: profile.civilStatus),
+                          if (profile.address.isNotEmpty)
+                            _InfoRow(label: 'Address', value: profile.address),
+                          if (profile.ministry != null) ...[
+                            const Divider(height: 24),
+                            _InfoRow(label: 'Ministry', value: profile.ministry!),
+                          ],
+                          const Divider(height: 24),
+                          _InfoRow(
+                            label: 'Last Service Attended',
+                            value: isLoading
+                                ? 'Loading...'
+                                : (statusInfo?.lastAttendedService != null
+                                    ? '${statusInfo!.lastAttendedService!.name} (${DateFormat('MMM dd, yyyy').format(statusInfo.lastAttendedService!.startedAt)})'
+                                    : 'No record yet'),
                           ),
                         ],
-                      ),
-                      const SizedBox(height: 16),
-                      _InfoRow(label: 'Birthday', value: birthdateText),
-                      if (profile.age != null)
-                        _InfoRow(label: 'Age', value: '${profile.age}'),
-                      if (profile.civilStatus.isNotEmpty)
-                        _InfoRow(label: 'Civil Status', value: profile.civilStatus),
-                      if (profile.address.isNotEmpty)
-                        _InfoRow(label: 'Address', value: profile.address),
-                      if (profile.ministry != null) ...[
-                        const Divider(height: 24),
-                        _InfoRow(label: 'Ministry', value: profile.ministry!),
-                      ],
-                    ],
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -233,11 +273,7 @@ class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  const _ActionButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+  const _ActionButton({required this.icon, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -255,8 +291,7 @@ class _ActionButton extends StatelessWidget {
             const SizedBox(height: 8),
             Text(label,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w600)),
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
           ],
         ),
       ),
