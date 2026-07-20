@@ -41,6 +41,10 @@ class MemberHomePage extends StatelessWidget {
             const Text('Member Portal', style: AppTextStyles.bodyMuted),
           ],
         ),
+        actions: [
+          Image.asset('assets/images/upc-logo.png', height: 40),
+          const SizedBox(width: 16),
+        ],
       ),
       body: SafeArea(
         child: Container(

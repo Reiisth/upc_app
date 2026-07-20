@@ -62,7 +62,7 @@ class _ProfileSelectionPageState extends State<ProfileSelectionPage> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const Text("MEMBER PORTAL", style: AppTextStyles.bodyMuted),
+              const Text("Member Portal", style: AppTextStyles.bodyMuted),
               const SizedBox(height: 4),
             ],
           ),
