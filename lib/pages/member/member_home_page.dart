@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../models/member_profile.dart';
 import '../../theme/app_theme.dart';
 import 'widgets/member_qr_dialog.dart';
+import 'attendance_history_page.dart';
 
 class MemberHomePage extends StatelessWidget {
   final MemberProfile profile;
@@ -173,7 +174,11 @@ class MemberHomePage extends StatelessWidget {
                         icon: Icons.history,
                         label: 'Attendance History',
                         onTap: () {
-                          // TODO: navigate to attendance history
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => AttendanceHistoryPage(memberId: profile.id),
+                            ),
+                          );
                         },
                       ),
                     ),
