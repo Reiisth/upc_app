@@ -52,4 +52,23 @@ class AttendanceService {
         .map((doc) => AttendanceRecord.fromDoc(doc.id, doc.data()))
         .toList();
   }
+
+  Future<int> countScannedByUserForService(String serviceId, String uid) async {
+    final snapshot = await _firestore
+        .collection('attendance')
+        .where('serviceId', isEqualTo: serviceId)
+        .where('scannedBy', isEqualTo: uid)
+        .count()
+        .get();
+    return snapshot.count ?? 0;
+  }
+
+  Future<int> countForService(String serviceId) async {
+    final snapshot = await _firestore
+        .collection('attendance')
+        .where('serviceId', isEqualTo: serviceId)
+        .count()
+        .get();
+    return snapshot.count ?? 0;
+  }
 }
