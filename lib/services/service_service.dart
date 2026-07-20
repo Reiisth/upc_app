@@ -71,4 +71,13 @@ class ServiceService {
       'endedAt': Timestamp.fromDate(DateTime.now()),
     });
   }
+
+  /// All services, most recently started first.
+  Future<List<ServiceModel>> fetchAll() async {
+    final snapshot = await _firestore.collection('services').get();
+    final services =
+        snapshot.docs.map((d) => ServiceModel.fromDoc(d.id, d.data())).toList();
+    services.sort((a, b) => b.startedAt.compareTo(a.startedAt));
+    return services;
+  }
 }
