@@ -48,7 +48,7 @@ class ServiceService {
       throw Exception('A service is already active: ${existing.name}');
     }
 
-    final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+    
     final now = DateTime.now();
     final resolvedName =
         (name == null || name.trim().isEmpty) ? generateDefaultName(now) : name.trim();
@@ -58,7 +58,7 @@ class ServiceService {
       'startedAt': Timestamp.fromDate(now),
       'endedAt': null,
       'status': 'active',
-      'startedBy': uid,
+      'startedBy': 'Pastor John',
     });
 
     final doc = await docRef.get();

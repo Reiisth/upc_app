@@ -15,4 +15,10 @@ class MemberService {
         .map((doc) => MemberProfile.fromDoc(doc.id, doc.data()))
         .toList();
   }
+
+  Future<MemberProfile?> fetchById(String memberId) async {
+  final doc = await _firestore.collection('members').doc(memberId).get();
+  if (!doc.exists) return null;
+  return MemberProfile.fromDoc(doc.id, doc.data()!);
+}
 }
