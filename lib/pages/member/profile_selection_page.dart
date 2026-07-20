@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../models/member_profile.dart';
 import '../../services/member_service.dart';
 import '../../theme/app_theme.dart';
-import '../login_page.dart';
 import 'member_home_page.dart';
 
 class ProfileSelectionPage extends StatefulWidget {
