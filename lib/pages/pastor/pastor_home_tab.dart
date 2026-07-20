@@ -120,7 +120,7 @@ class _PastorHomeTabState extends State<PastorHomeTab> {
             children: [
               const Text('WELCOME BACK!', style: AppTextStyles.greetingsub),
               const SizedBox(height: 4),
-              Text('Blessed day, Pastor $_pastorFirstName!',
+              const Text('Blessed day, Pastor $_pastorFirstName!',
                   style: AppTextStyles.herogreeting),
               const SizedBox(height: 20),
 
@@ -144,7 +144,7 @@ class _PastorHomeTabState extends State<PastorHomeTab> {
                         ),
                         child: Column(
                           children: [
-                            Icon(Icons.calendar_today, color: AppColors.primary, size: 28),
+                            const Icon(Icons.calendar_today, color: AppColors.primary, size: 28),
                             const SizedBox(height: 8),
                             Text(DateFormat('EEEE, dd MMMM yyyy').format(today),
                                 style: AppTextStyles.bodyh1),
