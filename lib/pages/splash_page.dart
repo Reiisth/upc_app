@@ -18,7 +18,6 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _goToLogin() async {
-    // TODO: replace with real init logic (Firebase init, auth check, etc.)
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
     Navigator.of(context).pushReplacement(

@@ -8,6 +8,7 @@ import '../../services/attendance_service.dart';
 import '../../services/service_service.dart';
 import '../../theme/app_theme.dart';
 import 'qr_scanner_page.dart';
+import 'usher_members_page.dart';
 
 class UsherHomePage extends StatefulWidget {
   final UsherProfile profile;
@@ -208,7 +209,9 @@ class _UsherHomePageState extends State<UsherHomePage> {
                           width: double.infinity,
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              // TODO: build member registration flow
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) => const UsherMembersPage()),
+                              );
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white,
@@ -217,8 +220,8 @@ class _UsherHomePageState extends State<UsherHomePage> {
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: const StadiumBorder(),
                             ),
-                            icon: const Icon(Icons.person_add),
-                            label: const Text('Add Member'),
+                            icon: const Icon(Icons.people_alt),
+                            label: const Text('Manage Members'),
                           ),
                         ),
                       ],

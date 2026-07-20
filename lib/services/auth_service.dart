@@ -27,7 +27,6 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      print('FirebaseAuthException code: ${e.code}, message: ${e.message}'); // TEMP
       switch (e.code) {
         case 'user-not-found':
         case 'invalid-credential':

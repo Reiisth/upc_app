@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:upc_connect/services/attendance_service.dart';
 import '../../models/service_model.dart';
 import '../../services/service_service.dart';
 import '../../theme/app_theme.dart';

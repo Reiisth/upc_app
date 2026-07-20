@@ -5,6 +5,31 @@ import '../models/member_profile.dart';
 class MemberService {
   final _firestore = FirebaseFirestore.instance;
 
+  Future<void> createMember({
+    required String firstName,
+    required String lastName,
+    String middleName = '',
+    required DateTime birthdate,
+    required Gender gender,
+    required String civilStatus,
+    required String address,
+    required DateTime memberSince,
+    required String linkedUid,
+  }) async {
+    await _firestore.collection('members').add({
+      'firstName': firstName,
+      'lastName': lastName,
+      'middleName': middleName,
+      'birthdate': Timestamp.fromDate(birthdate),
+      'gender': gender == Gender.male ? 'male' : 'female',
+      'civilStatus': civilStatus,
+      'address': address,
+      'memberSince': Timestamp.fromDate(memberSince),
+      'photoUrl': '', // always empty — photo upload disabled (Storage plan limitation)
+      'linkedUid': linkedUid,
+    });
+  }
+
   Future<List<MemberProfile>> fetchProfilesForUser(String uid) async {
     final snapshot = await _firestore
         .collection('members')
@@ -35,5 +60,9 @@ class MemberService {
       return a.firstName.toLowerCase().compareTo(b.firstName.toLowerCase());
     });
     return members;
+  }
+
+  Future<void> deleteMember(String memberId) async {
+    await _firestore.collection('members').doc(memberId).delete();
   }
 }
