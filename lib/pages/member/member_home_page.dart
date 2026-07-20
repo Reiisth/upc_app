@@ -9,7 +9,7 @@ class MemberHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('Welcome, ${profile.name}')),
+      body: Center(child: Text('Welcome, ${profile.fullName}!')),
     );
   }
 }

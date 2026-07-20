@@ -130,13 +130,13 @@ class _ProfileSelectionPageState extends State<ProfileSelectionPage> {
                                         ? NetworkImage(profile.photoUrl)
                                         : null,
                                     child: profile.photoUrl.isEmpty
-                                        ? Text(profile.name.isNotEmpty ? profile.name[0] : '?',
+                                        ? Text(profile.fullName.isNotEmpty ? profile.fullName[0] : '?',
                                             style: AppTextStyles.heading1.copyWith(color:Colors.white))
                                         : null,
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    profile.name,
+                                    profile.fullName,
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
