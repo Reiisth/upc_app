@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'dart:ui';
+import '../services/auth_service.dart';
+import 'usher/usher_home_page.dart';
+import 'member/member_home_page.dart';
+import 'pastor/pastor_home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,16 +27,45 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  final _authService = AuthService();
+
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
-    // TODO: wire up real authentication (Firebase Auth, etc.)
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final result = await _authService.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
-    if (!mounted) return;
-    setState(() => _isLoading = false);
+      if (!mounted) return;
+
+      Widget destination;
+      switch (result.role) {
+        case UserRole.usher:
+          destination = const UsherHomePage();
+          break;
+        case UserRole.member:
+          destination = const MemberHomePage();
+          break;
+        case UserRole.pastor:
+          destination = const PastorHomePage();
+          break;
+      }
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => destination),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString().replaceFirst('Exception: ', ''))),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   void _handleForgotPassword() {
