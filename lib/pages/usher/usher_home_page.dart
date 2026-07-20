@@ -39,7 +39,6 @@ class _UsherHomePageState extends State<UsherHomePage> {
       usherId: widget.profile.id,
     );
     final total = await _attendanceService.countTotalForService(active.id);
-    print('DEBUG: active=${active.id} scannedByMe=$scannedByMe total=$total'); 
     return _UsherHomeData(activeService: active, scannedByMe: scannedByMe, totalForService: total);
   }
 
@@ -212,8 +211,9 @@ class _UsherHomePageState extends State<UsherHomePage> {
                               // TODO: build member registration flow
                             },
                             style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.white,
                               foregroundColor: AppColors.primary,
-                              side: BorderSide(color: AppColors.primary),
+                              side: const BorderSide(color: AppColors.primary),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: const StadiumBorder(),
                             ),
