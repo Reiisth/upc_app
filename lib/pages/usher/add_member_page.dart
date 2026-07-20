@@ -111,7 +111,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Add Member', style: AppTextStyles.heading2),
+        title: const Text('Add Member', style: AppTextStyles.bodyh1),
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.bgGradient),
@@ -210,7 +210,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                   ),
                   const SizedBox(height: 24),
 
-                  const Text('Login Account', style: AppTextStyles.heading2),
+                  const Text('Login Account', style: AppTextStyles.bodyh2),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailController,

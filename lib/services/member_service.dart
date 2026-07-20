@@ -1,9 +1,21 @@
 // lib/services/member_service.dart
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/member_profile.dart';
 
 class MemberService {
   final _firestore = FirebaseFirestore.instance;
+
+  /// Generates a random 5-digit ID (10000–99999) not already in use.
+  Future<String> _generateUniqueMemberId() async {
+    final random = Random();
+    for (int attempt = 0; attempt < 10; attempt++) {
+      final candidate = (10000 + random.nextInt(90000)).toString();
+      final doc = await _firestore.collection('members').doc(candidate).get();
+      if (!doc.exists) return candidate;
+    }
+    throw Exception('Could not generate a unique member ID. Please try again.');
+  }
 
   Future<void> createMember({
     required String firstName,
@@ -16,7 +28,9 @@ class MemberService {
     required DateTime memberSince,
     required String linkedUid,
   }) async {
-    await _firestore.collection('members').add({
+    final memberId = await _generateUniqueMemberId();
+
+    await _firestore.collection('members').doc(memberId).set({
       'firstName': firstName,
       'lastName': lastName,
       'middleName': middleName,
