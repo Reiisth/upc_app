@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'dart:ui';
 import '../services/auth_service.dart';
-import 'usher/usher_home_page.dart';
+import 'usher/usher_profile_selection_page.dart';
 import 'member/profile_selection_page.dart';
 import 'pastor/pastor_home_page.dart';
 
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       Widget destination;
       switch (result.role) {
         case UserRole.usher:
-          destination = const UsherHomePage();
+          destination =  UsherProfileSelectionPage(uid: result.uid);
           break;
         case UserRole.member:
           destination = ProfileSelectionPage(uid: result.uid);

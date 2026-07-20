@@ -1,6 +1,5 @@
 // lib/services/attendance_service.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../models/attendance_record.dart';
 import '../models/service_model.dart';
 import 'service_service.dart';
@@ -10,25 +9,25 @@ class AttendanceService {
   final _serviceService = ServiceService();
 
   /// Records attendance for [memberId] against whichever service is
-  /// currently active. Throws if no service is active (i.e. ended or
-  /// never started) — this is what blocks scans after a service ends.
-  Future<void> recordAttendance(String memberId) async {
+  /// currently active, attributed to [usherId] (the ushers doc ID —
+  /// NOT the shared auth uid). Throws if no service is active.
+  Future<void> recordAttendance({
+    required String memberId,
+    required String usherId,
+  }) async {
     final ServiceModel? active = await _serviceService.getActiveService();
     if (active == null) {
       throw Exception('No active service. Scanning is closed.');
     }
 
-    final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
-
     await _firestore.collection('attendance').add({
       'memberId': memberId,
       'serviceId': active.id,
       'timestamp': Timestamp.fromDate(DateTime.now()),
-      'scannedBy': uid,
+      'scannedBy': usherId,
     });
   }
 
-  /// A member's full attendance history, most recent first.
   Future<List<AttendanceRecord>> fetchHistory(String memberId) async {
     final snapshot = await _firestore
         .collection('attendance')
@@ -41,34 +40,35 @@ class AttendanceService {
         .toList();
   }
 
-  /// All attendance records for a given service (for pastor's "present members" view).
   Future<List<AttendanceRecord>> fetchForService(String serviceId) async {
-    final snapshot = await _firestore
-        .collection('attendance')
-        .where('serviceId', isEqualTo: serviceId)
-        .get();
+    final snapshot =
+        await _firestore.collection('attendance').where('serviceId', isEqualTo: serviceId).get();
 
     return snapshot.docs
         .map((doc) => AttendanceRecord.fromDoc(doc.id, doc.data()))
         .toList();
   }
 
-  Future<int> countScannedByUserForService(String serviceId, String uid) async {
+  /// Count of attendance records scanned by [usherId] for [serviceId].
+  Future<int> countScannedByUsher({
+    required String serviceId,
+    required String usherId,
+  }) async {
     final snapshot = await _firestore
         .collection('attendance')
         .where('serviceId', isEqualTo: serviceId)
-        .where('scannedBy', isEqualTo: uid)
-        .count()
+        .where('scannedBy', isEqualTo: usherId)
         .get();
-    return snapshot.count ?? 0;
+    return snapshot.docs.length;
   }
 
-  Future<int> countForService(String serviceId) async {
+
+  /// Total attendance records for [serviceId], regardless of usher.
+  Future<int> countTotalForService(String serviceId) async {
     final snapshot = await _firestore
         .collection('attendance')
         .where('serviceId', isEqualTo: serviceId)
-        .count()
         .get();
-    return snapshot.count ?? 0;
+    return snapshot.docs.length;
   }
 }
