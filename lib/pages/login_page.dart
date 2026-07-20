@@ -55,9 +55,15 @@ class _LoginPageState extends State<LoginPage> {
           break;
       }
 
-      Navigator.of(context).push(
+      await Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => destination),
       );
+
+      // Execution resumes here once the user is back on LoginPage —
+      // whether via back button or logout's popUntil(isFirst).
+      if (!mounted) return;
+      _emailController.clear();
+      _passwordController.clear();
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
