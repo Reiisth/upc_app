@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../theme/app_theme.dart';
 import 'pastor_home_tab.dart';
+import 'members_tab.dart';
 
 class PastorHomePage extends StatefulWidget {
   const PastorHomePage({super.key});
@@ -53,7 +54,7 @@ class _PastorHomePageState extends State<PastorHomePage> {
           children: const [
             PastorHomeTab(),
             _PlaceholderTab(label: 'Attendance Analytics — coming soon'),
-            _PlaceholderTab(label: 'UPC Members — coming soon'),
+            MembersTab(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

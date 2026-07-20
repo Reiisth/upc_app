@@ -17,8 +17,23 @@ class MemberService {
   }
 
   Future<MemberProfile?> fetchById(String memberId) async {
-  final doc = await _firestore.collection('members').doc(memberId).get();
-  if (!doc.exists) return null;
-  return MemberProfile.fromDoc(doc.id, doc.data()!);
-}
+    final doc = await _firestore.collection('members').doc(memberId).get();
+    if (!doc.exists) return null;
+    return MemberProfile.fromDoc(doc.id, doc.data()!);
+  }
+
+  /// Fetches all registered members, sorted by last name then first name.
+  /// Used for the pastor's member directory / search tab.
+  Future<List<MemberProfile>> fetchAll() async {
+    final snapshot = await _firestore.collection('members').get();
+    final members = snapshot.docs
+        .map((doc) => MemberProfile.fromDoc(doc.id, doc.data()))
+        .toList();
+    members.sort((a, b) {
+      final byLast = a.lastName.toLowerCase().compareTo(b.lastName.toLowerCase());
+      if (byLast != 0) return byLast;
+      return a.firstName.toLowerCase().compareTo(b.firstName.toLowerCase());
+    });
+    return members;
+  }
 }

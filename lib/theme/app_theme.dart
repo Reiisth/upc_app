@@ -133,6 +133,13 @@ class AppTextStyles {
     color: AppColors.textDark,
   );
 
+  static const TextStyle bodyh2 = TextStyle(
+    fontFamily: bodyFont,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textDark,
+  );
+
   static const TextStyle bodyMuted = TextStyle(
     fontFamily: bodyFont,
     fontSize: 13,
