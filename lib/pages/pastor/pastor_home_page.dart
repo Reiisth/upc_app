@@ -72,18 +72,3 @@ class _PastorHomePageState extends State<PastorHomePage> {
     );
   }
 }
-
-class _PlaceholderTab extends StatelessWidget {
-  final String label;
-  const _PlaceholderTab({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: AppGradients.bgGradient),
-      width: double.infinity,
-      height: double.infinity,
-      child: Center(child: Text(label, style: AppTextStyles.bodyMuted)),
-    );
-  }
-}
