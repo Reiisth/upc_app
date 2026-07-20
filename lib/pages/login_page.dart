@@ -3,7 +3,7 @@ import '../theme/app_theme.dart';
 import 'dart:ui';
 import '../services/auth_service.dart';
 import 'usher/usher_home_page.dart';
-import 'member/member_home_page.dart';
+import 'member/profile_selection_page.dart';
 import 'pastor/pastor_home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           destination = const UsherHomePage();
           break;
         case UserRole.member:
-          destination = const MemberHomePage();
+          destination = ProfileSelectionPage(uid: result.uid);
           break;
         case UserRole.pastor:
           destination = const PastorHomePage();
