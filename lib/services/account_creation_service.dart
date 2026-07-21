@@ -5,7 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AccountCreationService {
   /// Creates a new email/password account WITHOUT signing out or replacing
   /// the currently signed-in user (e.g. the usher performing this action).
-  /// Returns the new account's UID.
+  ///
+  /// If an account with this email already exists, attempts to sign in
+  /// with the provided password instead — since multiple members can be
+  /// registered under the same shared account (e.g. a family). Returns
+  /// the resulting account's UID either way.
   Future<String> createAccount({
     required String email,
     required String password,
@@ -17,17 +21,46 @@ class AccountCreationService {
 
     try {
       final secondaryAuth = FirebaseAuth.instanceFor(app: secondaryApp);
-      final credential = await secondaryAuth.createUserWithEmailAndPassword(
-        email: email.trim(),
-        password: password,
-      );
-      final uid = credential.user!.uid;
-      await secondaryAuth.signOut();
-      return uid;
+
+      try {
+        final credential = await secondaryAuth.createUserWithEmailAndPassword(
+          email: email.trim(),
+          password: password,
+        );
+        final uid = credential.user!.uid;
+        await secondaryAuth.signOut();
+        return uid;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          // Existing account — link this member to it, but only if the
+          // password actually matches. This prevents linking a member
+          // to an email the person doesn't actually control.
+          try {
+            final credential = await secondaryAuth.signInWithEmailAndPassword(
+              email: email.trim(),
+              password: password,
+            );
+            final uid = credential.user!.uid;
+            await secondaryAuth.signOut();
+            return uid;
+          } on FirebaseAuthException catch (signInError) {
+            switch (signInError.code) {
+              case 'wrong-password':
+              case 'invalid-credential':
+                throw Exception(
+                    'This email is already registered under a different password. '
+                    'Use the same password as the existing account to link this member.');
+              case 'user-disabled':
+                throw Exception('This account has been disabled.');
+              default:
+                throw Exception('Could not link to existing account: ${signInError.message}');
+            }
+          }
+        }
+        rethrow;
+      }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case 'email-already-in-use':
-          throw Exception('An account with this email already exists.');
         case 'weak-password':
           throw Exception('Password is too weak (minimum 6 characters).');
         case 'invalid-email':

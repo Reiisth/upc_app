@@ -112,6 +112,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Add Member', style: AppTextStyles.bodyh1),
+        actions: [
+          Image.asset('assets/images/upc-logo.png', height: 40),
+          const SizedBox(width: 16),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: AppGradients.bgGradient),
@@ -149,31 +153,68 @@ class _AddMemberPageState extends State<AddMemberPage> {
 
                   TextFormField(
                     controller: _firstNameController,
-                    decoration: const InputDecoration(labelText: 'First Name'),
+                    decoration: const InputDecoration(labelText: 'First Name',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                     validator: (v) =>
                         (v == null || v.trim().isEmpty) ? 'First name is required' : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _lastNameController,
-                    decoration: const InputDecoration(labelText: 'Last Name'),
+                    decoration: const InputDecoration(labelText: 'Last Name',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                    ),
                     validator: (v) =>
                         (v == null || v.trim().isEmpty) ? 'Last name is required' : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _middleNameController,
-                    decoration: const InputDecoration(labelText: 'Middle Name (optional)'),
+                    decoration: const InputDecoration(labelText: 'Middle Name (optional)',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                   ),
                   const SizedBox(height: 16),
 
                   InkWell(
                     onTap: _pickBirthdate,
                     child: InputDecorator(
-                      decoration: const InputDecoration(labelText: 'Birthdate'),
+                      decoration: const InputDecoration(labelText: "Birthdate",
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                       child: Text(
                         _birthdate == null
-                            ? 'Select date'
+                            ? 'Birthdate'
                             : '${_birthdate!.month}/${_birthdate!.day}/${_birthdate!.year}',
                       ),
                     ),
@@ -182,7 +223,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
 
                   DropdownButtonFormField<Gender>(
                     initialValue: _gender,
-                    decoration: const InputDecoration(labelText: 'Gender'),
+                    decoration: const InputDecoration(labelText: 'Gender',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                     items: const [
                       DropdownMenuItem(value: Gender.male, child: Text('Male')),
                       DropdownMenuItem(value: Gender.female, child: Text('Female')),
@@ -193,7 +243,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
 
                   DropdownButtonFormField<String>(
                     initialValue: _civilStatus,
-                    decoration: const InputDecoration(labelText: 'Civil Status'),
+                    decoration: const InputDecoration(labelText: 'Civil Status',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                     items: _civilStatusOptions
                         .map((s) => DropdownMenuItem(value: s, child: Text(s)))
                         .toList(),
@@ -203,7 +262,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
 
                   TextFormField(
                     controller: _addressController,
-                    decoration: const InputDecoration(labelText: 'Address'),
+                    decoration: const InputDecoration(labelText: 'Address',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                     maxLines: 2,
                     validator: (v) =>
                         (v == null || v.trim().isEmpty) ? 'Address is required' : null,
@@ -215,7 +283,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(labelText: 'Email'),
+                    decoration: const InputDecoration(labelText: 'Email',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                     validator: (v) =>
                         (v == null || v.trim().isEmpty) ? 'Email is required' : null,
                   ),
@@ -223,7 +300,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
                   TextFormField(
                     controller: _passwordController,
                     obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Password'),
+                    decoration: const InputDecoration(labelText: 'Password',
+                      fillColor: AppColors.white,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.textMuted, width: 1.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primary, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),),
                     validator: (v) => (v == null || v.length < 6)
                         ? 'Password must be at least 6 characters'
                         : null,
